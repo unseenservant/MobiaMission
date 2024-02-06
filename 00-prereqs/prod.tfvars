@@ -1,0 +1,7 @@
+project                           = "mobia-mission-aaron"
+app_region                        = "us-east1"
+app_name                          = "app-mobia"
+app_image_name                    = "mobiaapp"
+artifact_registry_description     = "mobia Assignment"
+account_id_project_owner_sa_sa    = "project-owner-access"
+display_name_project_owner_sa_sa  = "Project Owner Access"

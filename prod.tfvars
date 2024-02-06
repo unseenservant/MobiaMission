@@ -1,0 +1,9 @@
+project                           = "mobia-mission-aaron"
+app_region                        = "us-east1"
+app_name                          = "app-mobia"
+app_image_name                    = "mobiaapp"
+app_container_port                = 80
+artifact_registry_description     = "mobia Assignment"
+subnetwork_name                   = "app-subnetwork"
+subnetwork_cidr                   = "3.121.56.0/24"
+vpc_name                          = "app-network"

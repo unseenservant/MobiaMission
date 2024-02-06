@@ -1,6 +1,10 @@
-name: Plan Terraform
+name: Apply Terraform
 
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -12,8 +16,7 @@ permissions:
   checks: read
 
 jobs:
-
-  terraform-plan-gke:
+  terraform-apply-gke:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,13 +36,12 @@ jobs:
     - name: Terraform Init GKE
       run: terraform -chdir="01-gke-infra" init
 
-    - name: Terraform Plan GKE
-      run: terraform -chdir="01-gke-infra" plan -var-file="prod.tfvars" -detailed-exitcode -lock=false -input=false
+    - name: Terraform Apply GKE
+      run: terraform -chdir="01-gke-infra" apply -var-file=prod.tfvars -auto-approve
 
-
-  terraform-plan-app:
+  terraform-apply-app:
     runs-on: ubuntu-latest
-    needs: terraform-plan-gke
+    needs: terraform-apply-gke
 
     steps:
     - name: Checkout
@@ -55,8 +57,8 @@ jobs:
         service_account: 'project-owner-access@mobia-mission-aaron.iam.gserviceaccount.com'
         workload_identity_provider: 'projects/1039028925758/locations/global/workloadIdentityPools/mobia-mission-pool/providers/unseenservant-github'
 
-    - name: Terraform Init APP
+    - name: Terraform Init GKE
       run: terraform -chdir="02-k8s-deploy" init
 
-    - name: Terraform Plan APP
-      run: terraform -chdir="02-k8s-deploy" plan -var-file="prod.tfvars" -detailed-exitcode -lock=false -input=false
+    - name: Terraform Apply GKE
+      run: terraform -chdir="02-k8s-deploy" apply -var-file=prod.tfvars -auto-approve

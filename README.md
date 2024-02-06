@@ -1,8 +1,10 @@
-# MobiaMission
 
-## Directory 
+# MobiaMission Infrastructure Deployment
+## Overview
+MobiaMission is a robust infrastructure deployment project designed to streamline the setup and management of cloud resources using Terraform. This project encapsulates the deployment of a Google Kubernetes Engine (GKE) cluster, associated networking infrastructure, and a sample web application, ensuring a cohesive and scalable solution.
 
-```
+## Repository Structure
+```plaintext
 .
 ├── 00-prereqs
 │   ├── artifact_registry.tf
@@ -24,48 +26,26 @@
 │   └── variables.tf
 ├── LICENSE
 ├── README.md
-├── TODO.md
 ├── build
 │   ├── Dockerfile
 │   └── index.html
 └── prod.tfvars
 ```
+### Directory Descriptions
+1. **00-prereqs**: Contains Terraform configurations for prerequisite resources, including service accounts and backend storage for Terraform state.
+2. **01-gke-infra**: Hosts Terraform files (gke.tf & networking.tf) for provisioning the GKE cluster and its associated VPC and subnet.
+3. **02-k8s-deploy**: Contains the Terraform configuration (mobia_app.tf) for deploying the sample web application onto the Kubernetes cluster.
+4. **build**: Includes the Dockerfile and index.html for building the sample web application.
 
-### 00-prereqs
+## Usage Guidelines
+### Deploying Infrastructure
+1. **Open a Pull Request**: To initiate the deployment, create a Pull Request targeting the main branch of MobiaMission Repository.
+2. **Review Terraform Plan**: Upon opening the PR, GitHub Actions will generate a Terraform Plan, visible in the Actions tab, detailing the proposed infrastructure changes.
+3. **Merge to Apply**: Once reviewed and approved, merging the PR into main triggers another GitHub Action, Apply Terraform, which provisions the outlined infrastructure.
 
+### Best Practices and Workflow
+* **Separation of Concerns**: The content within the 00-prereqs directory, under a production environment, should reside in a separate version-controlled repository for logical segregation and enhanced security.
+* **Sequential Deployment**: Infrastructure changes detected in 01-gke-infra will cause the Terraform Plan for 02-k8s-deploy to halt and return an error. This mechanism ensures that modifications to the application layer and the underlying GKE cluster are not made simultaneously, adhering to deployment best practices.
 
-For the purposes of this presentation, the Terraform used to setup the rerequisites for a successful terraform run are stored here. In a real production repository the contents of this directory would be stored in separate VCS repository for logical separation. 
-
-### 01-gke-infra
-
-This directory contains ``gke.tf`` & ``networking.tf``, which are responsible for the deployment of the GKE cluster and VPC/Subnet to be associated with them. 
-
-### 02-k8s-deploy
-
-This directory contains ``mobia_app.tf`` which is the primary kubernetes manifests responsible for launching the application
-
-## build
-
-This directory contains the ``Dockerfile`` and ``index.html`` required to produce the application
-
-## How to Use
-
-
-### Pull Requests
-
-In order to deploy the infra represented in this repository, open a Pull Request on [this repository](https://github.com/unseenservant/MobiaMission) targetting the ``main`` branch. 
-
-When you PR is ready, you'll see the Terraform Plan output as part of the Actions on the PR 
-
-#### To Apply the Terraform Plan
-
-Following Hashicorp's recommended VCS workflow for deploying Terraform, when a PR is merged into ``main`` another GitHub Action called **Apply Terraform** is started which will provision the infrastructure. 
-
-### Important Notes
-
-If infrastructure changes are detected on 01-gke-infra the Terraform Plan for 02-k8s-deploy will not execute and will return an error. This is control flow to prevent changes to both the application layer and the underlying GKE cluster in the same PR, ensuring best practices are utilized. 
-
-
-## Results
-
-[Here!](http://35.241.48.121/) & [Cloud Console](https://console.cloud.google.com/kubernetes/workload/overview?hl=en&project=mobia-mission-aaron&pageState=(%22savedViews%22:(%22i%22:%2295f6c98e207a4bfdaec54fa782670b40%22,%22c%22:%5B%5D,%22n%22:%5B%5D)))
+## Viewing Results
+The deployed application can be accessed [here](http://35.241.48.121/). For administrative and monitoring purposes, the GKE cluster and application deployment can be managed via the [Google Cloud Console](https://console.cloud.google.com/kubernetes/workload/overview?hl=en&project=mobia-mission-aaron&pageState=(%22savedViews%22:(%22i%22:%2295f6c98e207a4bfdaec54fa782670b40%22,%22c%22:%5B%5D,%22n%22:%5B%5D))).

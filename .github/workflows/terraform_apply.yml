@@ -57,8 +57,8 @@ jobs:
         service_account: 'project-owner-access@mobia-mission-aaron.iam.gserviceaccount.com'
         workload_identity_provider: 'projects/1039028925758/locations/global/workloadIdentityPools/mobia-mission-pool/providers/unseenservant-github'
 
-    - name: Terraform Init GKE
+    - name: Terraform Init APP
       run: terraform -chdir="02-k8s-deploy" init
 
-    - name: Terraform Apply GKE
+    - name: Terraform Apply APP
       run: terraform -chdir="02-k8s-deploy" apply -var-file=prod.tfvars -auto-approve

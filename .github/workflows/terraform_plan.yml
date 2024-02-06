@@ -59,4 +59,4 @@ jobs:
       run: terraform -chdir="02-k8s-deploy" init
 
     - name: Terraform Plan APP
-      run: terraform -chdir="02-k8s-deploy" plan -var-file="prod.tfvars" -detailed-exitcode -lock=false -input=false
+      run: terraform -chdir="02-k8s-deploy" plan -var-file="prod.tfvars" -lock=false -input=false

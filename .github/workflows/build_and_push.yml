@@ -25,10 +25,10 @@ jobs:
 
 
     - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
+      uses: google-github-actions/setup-gcloud@v2
 
     - name: Configure Docker to use the gcloud command-line tool as a credential helper
-      run: gcloud auth configure-docker
+      run: gcloud auth configure-docker us-east1-docker.pkg.dev
 
     - name: Build Docker image
       run: |

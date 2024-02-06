@@ -47,4 +47,3 @@ jobs:
 
     - name: Terraform Plan
       run: terraform -chdir="01-gke-infra" plan -var-file="prod.tfvars" -detailed-exitcode -lock=false -input=false
-01-gke-infra/prod.tfvars

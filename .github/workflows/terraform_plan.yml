@@ -1,0 +1,44 @@
+name: Plan Terraform
+
+on: [pull_request]
+
+jobs:
+  # wait-for-precommit:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Wait for Pre-Commit to succeed
+  #     uses: lewagon/wait-on-check-action@v1.3.1
+  #     with:
+  #       ref: ${{ github.event.pull_request.head.sha }}
+  #       check-name: 'pre-commit'
+  #       repo-token: ${{ secrets.GITHUB_TOKEN }}
+  #       wait-interval: 10
+
+  terraform-plan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.7.2
+
+    # - name: Set up Cloud SDK
+    #   uses: google-github-actions/setup-gcloud@v0
+    #   with:
+    #     service_account_key: ${{ secrets.GCP_TERRAFORM_SA_KEY }} # not stored as a secret, as I do not have access to the github to set it
+    #     project_id: ${{ secrets.PROJECT_ID }} # not stored as a secret, as I do not have access to the github to set it
+    #     export_default_credentials: true
+    - uses: 'google-github-actions/auth@v2'
+      with:
+        service_account: 'project-owner-access@mobia-mission-aaron.iam.gserviceaccount.com'
+        workload_identity_provider: 'projects/1039028925758/locations/global/workloadIdentityPools/mobia-mission-pool/providers/unseenservant-github'
+
+    - name: Terraform Init
+      run: terraform -chdir="./01-gke-infra/" init
+
+    - name: Terraform Plan
+      run: terraform -chdir="./01-gke-infra/" plan -var-file=prod.tfvars -detailed-exitcode -lock=false -input=false

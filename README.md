@@ -6,23 +6,19 @@
 .
 ├── 00-prereqs
 │   ├── artifact_registry.tf
-│   ├── oldvariables
 │   ├── prod.tfvars -> ../prod.tfvars
 │   ├── provider.tf
 │   ├── service_accounts.tf
 │   ├── statefile-backend-gcs.tf
-│   ├── terraform-tfstate.json
 │   └── variables.tf
 ├── 01-gke-infra
 │   ├── gke.tf
 │   ├── networking.tf
-│   ├── oldvariables
 │   ├── prod.tfvars -> ../prod.tfvars
 │   ├── provider.tf
 │   └── variables.tf
 ├── 02-k8s-deploy
 │   ├── mobia_app.tf
-│   ├── oldvariables
 │   ├── prod.tfvars -> ../prod.tfvars
 │   ├── provider.tf
 │   └── variables.tf
